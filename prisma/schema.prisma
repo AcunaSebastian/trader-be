@@ -22,8 +22,8 @@ model User {
 }
 
 model PurchaseOrder {
-  id             Int      @id @default(autoincrement())
-  user           User     @relation(fields: [userId], references: [id])
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [userId], references: [id])
   userId         Int
   sawmill        String
   po             String
@@ -33,10 +33,10 @@ model PurchaseOrder {
   large          String
   quantity       String
   client         String
-  inspectionDate DateTime
+  inspectionDate DateTime?
   port           String
-  etd            DateTime
-  eta            DateTime
+  etd            DateTime? @db.Date
+  eta            DateTime? @db.Date
   status         PoStatus
 }
 
