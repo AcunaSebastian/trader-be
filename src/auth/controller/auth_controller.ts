@@ -4,6 +4,7 @@ import {
   ApiResponseOk,
 } from "../../shared/model/api-response";
 import { AuthModel } from "../model/auth_model";
+import { JWTAdapterImpl } from "../../shared/adapters/jwt_adapter";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -18,7 +19,14 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    const resp = new ApiResponseOk("User Logged In", user);
+    if (!user.isActive) {
+      const resp = new ApiResponseError("User is not active");
+      res.status(400).json(resp.response());
+      return;
+    }
+
+    const token = new JWTAdapterImpl().sign({ email: user.email });
+    const resp = new ApiResponseOk("User Logged In", { user, token });
 
     res.status(200).json(resp.response());
   } catch (error) {
