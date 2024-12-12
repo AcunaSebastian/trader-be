@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { PurchaseOrder } from "../model/interfaces";
+import { GetManyQueries } from "../model/po_model";
 
 export class PurchaseOrderRepository {
   private readonly db: PrismaClient;
@@ -7,8 +8,12 @@ export class PurchaseOrderRepository {
     this.db = new PrismaClient();
   }
 
-  public async getMany() {
-    return await this.db.purchaseOrder.findMany();
+  public async getMany({ limit, pagina }: GetManyQueries) {
+    return await this.db.purchaseOrder.findMany({ skip: pagina, take: limit });
+  }
+
+  public async getCountPo() {
+    return await this.db.purchaseOrder.count();
   }
 
   public async put(po: PurchaseOrder) {

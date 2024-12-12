@@ -14,7 +14,7 @@ export const login = async (req: Request, res: Response) => {
     const user = await authModel.login(email);
 
     if (!user) {
-      const resp = new ApiResponseError("User doesnt exist");
+      const resp = new ApiResponseError("User does not exist");
       res.status(400).json(resp.response());
       return;
     }

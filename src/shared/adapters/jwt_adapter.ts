@@ -1,3 +1,4 @@
+import { auth } from "express-oauth2-jwt-bearer";
 import JWT from "jsonwebtoken";
 
 type jwtPayload = { email: string };
@@ -11,6 +12,14 @@ export class JWTAdapterImpl implements JWTAdapter {
 
   constructor() {
     this.secret = process.env.JWT_SECRET || "sh1tk3y";
+  }
+
+  static jwtCheck() {
+    return auth({
+      audience: process.env.AUDIENCE,
+      issuerBaseURL: process.env.ISSUER_BASE_URL,
+      tokenSigningAlg: process.env.TOKEN_SIGNING_ALG,
+    });
   }
 
   sign(payload: { email: string }): string {
