@@ -1,7 +1,9 @@
-declare global {
+import { UserModel } from "./auth/domain/model/user-model";
+
+export declare global {
   namespace Express {
-    export interface Request {
-      user?: Record<string, any>;
+    interface Request {
+      user: UserModel | null;
     }
   }
 }

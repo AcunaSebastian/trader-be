@@ -1,22 +1,31 @@
 import { PrismaClient } from "@prisma/client";
-import { PurchaseOrder } from "../model/interfaces";
-import { GetManyQueries } from "../model/po_model";
+import {
+  GetManyFilters,
+  IPurchaseOrderRepository,
+  PurchaseOrderModel,
+} from "../../domain/model/purchase_order_model";
 
-export class PurchaseOrderRepository {
+export class PurchaseOrderRepository implements IPurchaseOrderRepository {
   private readonly db: PrismaClient;
   constructor() {
     this.db = new PrismaClient();
   }
 
-  public async getMany({ limit, pagina }: GetManyQueries) {
-    return await this.db.purchaseOrder.findMany({ skip: pagina, take: limit });
+  public async getMany({ limit, pagina, userId }: GetManyFilters) {
+    return await this.db.purchaseOrder.findMany({
+      where: { userId },
+      skip: pagina,
+      take: limit,
+    });
   }
 
-  public async getCountPo() {
-    return await this.db.purchaseOrder.count();
+  public async getCountPo(payload: GetManyFilters) {
+    return await this.db.purchaseOrder.count({
+      where: { userId: payload.userId },
+    });
   }
 
-  public async put(po: PurchaseOrder) {
+  public async put(po: PurchaseOrderModel) {
     const result = await this.db.purchaseOrder.create({
       data: {
         userId: po.userId,

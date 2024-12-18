@@ -2,8 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import poRouter from "./shared/routes/purchase-orders.route";
-import authRouter from "./shared/routes/auth.route";
+import poRouter from "./po/presentation/routes/purchase_orders_route";
+import authRouter from "./auth/presentation/routes/auth_route";
 
 const app = express();
 
