@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import {
   ApiResponseError,
   ApiResponseOk,
-} from "../../../shared/domain/model/api-response";
+} from "../../../../shared/domain/model/api-response";
 import { IAuthRepository } from "../../domain/model/auth-model";
 
 export class AuthController {

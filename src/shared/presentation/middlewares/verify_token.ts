@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { IAuthRepository } from "../../../auth/domain/model/auth-model";
+import { IAuthRepository } from "../../../features/auth/domain/model/auth-model";
 import { ApiResponseError } from "../../domain/model/api-response";
 import { auth } from "express-oauth2-jwt-bearer";
 import { constants } from "../utils/index";

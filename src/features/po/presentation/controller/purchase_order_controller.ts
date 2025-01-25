@@ -4,7 +4,7 @@ import { IPurchaseOrderRepository } from "../../domain/model/purchase_order_mode
 import {
   ApiResponseError,
   ApiResponseOk,
-} from "../../../shared/domain/model/api-response";
+} from "../../../../shared/domain/model/api-response";
 
 export class PurchaseOrderController {
   constructor(private readonly repo: IPurchaseOrderRepository) {}

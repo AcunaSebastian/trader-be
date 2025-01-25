@@ -13,32 +13,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int             @id @default(autoincrement())
-  email    String          @unique
-  name     String?
-  picture  String?
-  orders   PurchaseOrder[]
-  isActive Boolean         @default(true)
+model countries {
+  id   String @id @unique
+  name String
 }
 
-model PurchaseOrder {
-  id             Int       @id @default(autoincrement())
-  user           User      @relation(fields: [userId], references: [id])
-  userId         Int
-  sawmill        String
-  po             String
-  grade          String
-  thikness       String
-  width          String
-  large          String
-  quantity       String
-  client         String
-  inspectionDate DateTime?
-  port           String
-  etd            DateTime? @db.Date
-  eta            DateTime? @db.Date
-  status         PoStatus
+model User {
+  id       Int              @id @default(autoincrement())
+  email    String           @unique
+  password String
+  name     String
+  picture  String?
+  isActive Boolean          @default(true)
+  orders   PurchaseOrders[]
+}
+
+model sawmils {
+  id            Int              @id @default(autoincrement())
+  uid           String           @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  address       String
+  city          String
+  PurchaseOrder PurchaseOrders[]
+  inspections   inspections[]
+}
+
+model clients {
+  id            Int              @id @default(autoincrement())
+  uid           String           @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  PurchaseOrder PurchaseOrders[]
+}
+
+model PurchaseOrders {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  sawmillId   Int
+  clientId    Int
+  po          String
+  grade       String
+  thikness    String
+  width       String
+  large       String
+  quantity    String
+  port        String
+  etd         DateTime?     @db.Date
+  eta         DateTime?     @db.Date
+  status      PoStatus
+  user        User          @relation(fields: [userId], references: [id])
+  sawmills    sawmils       @relation(fields: [sawmillId], references: [id])
+  clients     clients       @relation(fields: [clientId], references: [id])
+  inspections inspections[]
+}
+
+model inspections {
+  id              Int      @id @default(autoincrement())
+  sawmillId       Int
+  purchaseOrderId Int?
+  inspectionDate  DateTime
+
+  sawmill       sawmils         @relation(fields: [sawmillId], references: [id])
+  purchaseOrder PurchaseOrders? @relation(fields: [purchaseOrderId], references: [id])
 }
 
 enum PoStatus {

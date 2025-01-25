@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { AuthRepository } from "../../../auth/presentation/repository/auth_repo";
-import { AuthValidator } from "../../../shared/presentation/middlewares/verify_token";
+import { AuthValidator } from "../../../../shared/presentation/middlewares/verify_token";
 import { PurchaseOrderController } from "../controller/purchase_order_controller";
 import { PurchaseOrderRepository } from "../repository/purchase_order_repo";
 
