@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client/extension";
+import { PrismaClient } from "@prisma/client";
 import {
   ClientInsertDTO,
   ClientUpdateDTO,
@@ -12,28 +12,30 @@ export class ClientServise {
   }
 
   async getCLientByUid(uid: string) {
-    return await this.db.client.findUnique({
+    return await this.db.clients.findUnique({
       where: { uid },
     });
   }
 
   async getClients() {
-    return await this.db.client.findMany();
+    return await this.db.clients.findMany();
   }
 
   async createClient(client: ClientInsertDTO) {
     try {
-      await this.db.client.create({
+      await this.db.clients.create({
         data: {
           name: client.name,
         },
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async updateClient(client: ClientUpdateDTO) {
     try {
-      await this.db.client.update({
+      await this.db.clients.update({
         where: { id: client.id },
         data: client,
       });
@@ -42,7 +44,7 @@ export class ClientServise {
 
   async deleteClient(id: number) {
     try {
-      await this.db.client.delete({
+      await this.db.clients.delete({
         where: { id },
       });
     } catch (error) {}

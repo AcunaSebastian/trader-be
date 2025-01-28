@@ -20,6 +20,9 @@ export class ClientController {
   public createClient = async (req: Request, res: Response) => {
     try {
       const { name } = req.body;
+
+      console.log({ name });
+      console.log({ body: req });
       await this.clientService.createClient({ name });
 
       res

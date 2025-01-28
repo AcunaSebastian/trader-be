@@ -13,7 +13,7 @@ type Init = {
 };
 
 export type ClientInsertDTO = {
-  name: Pick<Init, "name">;
+  name: string;
 };
 
 export type ClientUpdateDTO = Init;
